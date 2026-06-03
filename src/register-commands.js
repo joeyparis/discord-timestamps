@@ -29,14 +29,12 @@ const commands = [
       option
         .setName('when')
         .setDescription('Natural language time, e.g. "next Tuesday at 5pm"')
-        .setAutocomplete(true)
         .setRequired(true)
     )
     .addStringOption(option =>
       option
         .setName('timezone')
         .setDescription('Timezone (e.g. America/New_York, UTC)')
-        .setAutocomplete(true)
         .setRequired(false)
     )
 ];

@@ -67,7 +67,7 @@ npm run start
 
 ### Slash Command
 
-Use `/timestamp` with a required `when` argument and an optional `timezone` argument:
+Use `/timestamp` with a required `when` argument and an optional `timezone` argument. The fields do not use autocomplete suggestions, so pressing Enter will submit what you typed instead of selecting a suggestion.
 
 ```text
 /timestamp when:tomorrow at 1pm
@@ -76,8 +76,10 @@ Use `/timestamp` with a required `when` argument and an optional `timezone` argu
 /timestamp when:July 11 at 8pm timezone:America/Los_Angeles
 ```
 
+- **When**: Natural language time, such as `tomorrow at 1pm`, `next Tuesday at 5pm`, `in 3 hours`, or `July 11 at 8pm`
+- **Timezone**: Optional IANA timezone, such as `America/New_York`, `America/Los_Angeles`, or `UTC`
+
 If `timezone` is omitted, the bot assumes `America/New_York`.
-Both `when` and `timezone` support autocomplete suggestions.
 
 Responses are ephemeral and only visible to the user who ran the command.
 
