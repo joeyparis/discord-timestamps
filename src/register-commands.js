@@ -33,6 +33,16 @@ const commands = [
     )
     .addStringOption(option =>
       option
+        .setName('format')
+        .setDescription('Timestamp format')
+        .setRequired(false)
+        .addChoices(
+          { name: 'Full date/time', value: 'full' },
+          { name: 'Time', value: 'time' }
+        )
+    )
+    .addStringOption(option =>
+      option
         .setName('timezone')
         .setDescription('Timezone (e.g. America/New_York, UTC)')
         .setRequired(false)

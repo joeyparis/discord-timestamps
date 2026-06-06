@@ -6,7 +6,8 @@ A simple Discord bot that turns natural language into copyable Discord timestamp
 
 - `/timestamp` slash command with natural-language date parsing
 - Ephemeral responses so generated timestamps stay private
-- Copy-focused full date/time output: `<t:...:F>`
+- Copy-focused Discord timestamp output
+- Optional format dropdown for full date/time or just time
 - Optional timezone autocomplete, defaulting to `America/New_York`
 - Timezone-aware parsing using Luxon and chrono-node
 
@@ -67,18 +68,20 @@ npm run start
 
 ### Slash Command
 
-Use `/timestamp` with a required `when` argument and an optional `timezone` argument. The fields do not use autocomplete suggestions, so pressing Enter will submit what you typed instead of selecting a suggestion.
+Use `/timestamp` with a required `when` argument and optional `format` and `timezone` arguments. The `format` field uses dropdown choices. The other fields do not use autocomplete suggestions, so pressing Enter will submit what you typed instead of selecting a suggestion.
 
 ```text
 /timestamp when:tomorrow at 1pm
 /timestamp when:next Tuesday at 5pm timezone:America/New_York
-/timestamp when:in 3 hours
+/timestamp when:in 3 hours format:Time
 /timestamp when:July 11 at 8pm timezone:America/Los_Angeles
 ```
 
 - **When**: Natural language time, such as `tomorrow at 1pm`, `next Tuesday at 5pm`, `in 3 hours`, or `July 11 at 8pm`
+- **Format**: Optional dropdown choice. Use `Full date/time` for the current full timestamp output or `Time` for just the time
 - **Timezone**: Optional IANA timezone, such as `America/New_York`, `America/Los_Angeles`, or `UTC`
 
+If `format` is omitted, the bot uses `Full date/time`.
 If `timezone` is omitted, the bot assumes `America/New_York`.
 
 Responses are ephemeral and only visible to the user who ran the command.
@@ -114,6 +117,7 @@ You can find a full list of IANA timezones [here](https://en.wikipedia.org/wiki/
 | Flag | Format | Example |
 |------|--------|---------|
 | `F` | Full date/time | `Saturday, July 11, 2026 at 8:00 PM` |
+| `t` | Time | `8:00 PM` |
 
 ## Project Structure
 

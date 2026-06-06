@@ -71,6 +71,43 @@ test('generateTimestamps generates markdown for natural language input', () => {
   assert.doesNotMatch(result.content, /Short time:/);
 });
 
+test('generateTimestamps uses full date and time format when selected', () => {
+  const referenceNow = DateTime.fromObject(
+    { year: 2026, month: 6, day: 1, hour: 10, minute: 0 },
+    { zone: 'UTC' }
+  );
+
+  const result = generateTimestamps({
+    when: 'next Tuesday at 5pm',
+    format: 'full',
+    timezone: 'UTC',
+    referenceNow
+  });
+
+  assert.match(result.content, /^Full date\/time:/);
+  assert.match(result.content, /Copy this: `<t:\d+:F>`/);
+  assert.match(result.content, /Preview \(UTC\): <t:\d+:F>/);
+});
+
+test('generateTimestamps uses time-only format when selected', () => {
+  const referenceNow = DateTime.fromObject(
+    { year: 2026, month: 6, day: 1, hour: 10, minute: 0 },
+    { zone: 'UTC' }
+  );
+
+  const result = generateTimestamps({
+    when: 'next Tuesday at 5pm',
+    format: 'time',
+    timezone: 'UTC',
+    referenceNow
+  });
+
+  assert.match(result.content, /^Time:/);
+  assert.match(result.content, /Copy this: `<t:\d+:t>`/);
+  assert.match(result.content, /Preview \(UTC\): <t:\d+:t>/);
+  assert.doesNotMatch(result.content, /Full date\/time:/);
+});
+
 test('generateTimestamps requires natural language input', () => {
   const result = generateTimestamps({ timezone: 'UTC' });
 

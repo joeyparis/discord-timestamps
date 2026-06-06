@@ -3,7 +3,17 @@ import { DateTime } from 'luxon';
 
 const DEFAULT_TIMEZONE = 'America/New_York';
 
-const full_date_time_format = 'F';
+const default_timestamp_format = 'full';
+const timestamp_formats = {
+  full: {
+    label: 'Full date/time:',
+    discord_flag: 'F'
+  },
+  time: {
+    label: 'Time:',
+    discord_flag: 't'
+  }
+};
 
 function validateTimezone(timezone) {
   if (!timezone) {
@@ -35,14 +45,15 @@ function invalidInput(errors, examples = [
   };
 }
 
-function formatTimestampOutput(dt, timezone) {
-  const unixSeconds = Math.floor(dt.toSeconds());
+function formatTimestampOutput(dt, timezone, format = default_timestamp_format) {
+  const unix_seconds = Math.floor(dt.toSeconds());
+  const selected_format = timestamp_formats[format || default_timestamp_format];
 
   return {
     content: [
-      'Full date/time:',
-      `Copy this: \`<t:${unixSeconds}:${full_date_time_format}>\``,
-      `Preview (${timezone}): <t:${unixSeconds}:${full_date_time_format}>`
+      selected_format.label,
+      `Copy this: \`<t:${unix_seconds}:${selected_format.discord_flag}>\``,
+      `Preview (${timezone}): <t:${unix_seconds}:${selected_format.discord_flag}>`
     ].join('\n')
   };
 }
@@ -99,7 +110,7 @@ export function parseWhen(when, timezone = DEFAULT_TIMEZONE, referenceNow = null
   return { dt };
 }
 
-export function generateTimestamps({ timezone, when, referenceNow } = {}) {
+export function generateTimestamps({ timezone, when, format, referenceNow } = {}) {
   const effectiveTimezone = timezone || DEFAULT_TIMEZONE;
 
   if (when) {
@@ -114,7 +125,7 @@ export function generateTimestamps({ timezone, when, referenceNow } = {}) {
       ]);
     }
 
-    return formatTimestampOutput(result.dt, effectiveTimezone);
+    return formatTimestampOutput(result.dt, effectiveTimezone, format);
   }
 
   return invalidInput(['Natural language time is required'], [
